@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home — SMILO</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>😊</text></svg>">
+<script src="https://kit.fontawesome.com/c7aca3fb69.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="css/variables.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/home.css">
+<link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+<div id="navbar-root"></div>
+
+<div class="app-shell">
+  <div class="side-col left-col" id="side-nav-root"></div>
+
+  <div class="main-col">
+    <div class="card pulse-card" id="pulse-card"></div>
+
+    <div class="greeting">
+      <h1>Good to see you, <span id="greeting-name">there</span></h1>
+      <p>Share something worth smiling about.</p>
+    </div>
+
+    <div class="card composer">
+      <div class="composer-top">
+        <textarea id="composer-textarea" placeholder="What's on your mind?" maxlength="500"></textarea>
+      </div>
+      <div class="composer-bottom">
+        <div class="composer-left">
+          <select id="composer-visibility" class="visibility-select">
+            <option value="global">🌍 Global</option>
+            <option value="friends">👥 Friends</option>
+            <option value="only_me">🔒 Only Me</option>
+          </select>
+          <span class="char-count" id="composer-char-count">0/500</span>
+        </div>
+        <button class="btn btn-primary btn-sm" id="composer-post-btn" disabled>Post</button>
+      </div>
+      <div class="privacy-note composer-privacy"><i class="fa-solid fa-lock"></i><div>Smile photos remain private — this composer only shares what you type.</div></div>
+    </div>
+
+    <div class="feed-tabs-row">
+      <div class="tabs" data-tab-group="feed">
+        <button class="tab active" data-tab="global">Global</button>
+        <button class="tab" data-tab="friends">Friends</button>
+      </div>
+      <button class="btn btn-primary btn-sm" id="open-smile-modal-btn"><i class="fa-solid fa-face-smile"></i> Verify a Smile</button>
+    </div>
+
+    <div id="feed-list"></div>
+  </div>
+
+  <div class="side-col right-col">
+    <div class="card card-pad" id="community-goal-card"></div>
+    <div class="card card-pad">
+      <div class="section-title"><h3>Your Progress</h3></div>
+      <div id="progress-card-body"></div>
+    </div>
+    <div class="card card-pad">
+      <div class="section-title"><h3>Leaderboard</h3><a href="leaderboard.html">See all</a></div>
+      <div id="mini-leaderboard-body"></div>
+    </div>
+    <div class="card card-pad">
+      <div class="section-title"><h3>People You May Know</h3><a href="discover.html">See all</a></div>
+      <div id="suggestions-card-body"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Smile verification modal -->
+<div class="modal-overlay smile-modal" id="smile-modal">
+  <div class="modal">
+    <div class="modal-header"><h3>Verify Your Smile</h3><button class="modal-close" data-modal-close><i class="fa-solid fa-xmark"></i></button></div>
+    <div class="modal-body">
+
+      <div class="smile-stage" id="smile-stage-choose">
+        <div class="smile-drop">
+          <i class="fa-solid fa-camera"></i>
+          <span>Take a photo or upload an image to verify your smile.</span>
+        </div>
+        <div class="smile-choice-row">
+          <button class="btn btn-outline" id="smile-choose-file-btn"><i class="fa-solid fa-upload"></i> Upload Image</button>
+          <button class="btn btn-primary" id="smile-simulate-btn"><i class="fa-solid fa-camera"></i> Take Photo</button>
+        </div>
+        <input type="file" id="smile-file-input" accept="image/*" class="hidden">
+        <div class="privacy-note" style="margin-top:16px;"><i class="fa-solid fa-lock"></i><div>This is a frontend demo — verification is simulated, and your image is discarded immediately, never uploaded or stored.</div></div>
+      </div>
+
+      <div class="smile-stage smile-analyzing hidden" id="smile-stage-analyzing">
+        <div class="pulse-ring"><i class="fa-solid fa-face-smile"></i></div>
+        <h3 style="font-size:16px;margin-bottom:4px;">Analyzing…</h3>
+        <p style="font-size:13px;color:var(--text-muted);">Checking privately on this device.</p>
+      </div>
+
+      <div class="smile-stage smile-success hidden" id="smile-stage-success">
+        <div class="success-ring"><i class="fa-solid fa-check"></i></div>
+        <h3 style="font-size:17px;">Smile detected!</h3>
+        <p style="font-size:13px;color:var(--text-muted);margin-top:4px;">Your smile has been counted. Your photo stays private.</p>
+        <div class="smile-gain-row">
+          <div><b id="smile-points-gain">+10</b><span>Points</span></div>
+          <div><b id="smile-streak-value">1</b><span>Day streak</span></div>
+        </div>
+        <button class="btn btn-primary btn-block" data-modal-close>Nice!</button>
+      </div>
+
+      <div class="smile-stage hidden" id="smile-stage-failed">
+        <div class="success-ring" style="background:var(--danger-light);color:var(--danger);"><i class="fa-solid fa-face-frown"></i></div>
+        <h3 style="font-size:17px;">Couldn't detect a smile</h3>
+        <p style="font-size:13px;color:var(--text-muted);margin-top:4px;">No worries — try again with a bit more light or a clearer angle.</p>
+        <button class="btn btn-primary btn-block" id="smile-try-again-btn" style="margin-top:16px;">Try Again</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div id="toast-region"></div>
+
+<script src="js/storage.js"></script>
+<script src="js/theme.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/missions.js"></script>
+<script src="js/notifications.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/app.js"></script>
+<script src="js/smile.js"></script>
+<script src="js/home.js"></script>
+</body>
+</html>

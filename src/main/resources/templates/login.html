@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login — SMILO</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>😊</text></svg>">
+<script src="https://kit.fontawesome.com/c7aca3fb69.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="css/variables.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/auth.css">
+<link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+<div class="auth-page">
+  <div class="auth-visual">
+    <div class="v-brand"><span class="v-mark"><i class="fa-solid fa-face-smile"></i></span>SMILO</div>
+    <div class="v-copy">
+      <h1>Good to see you again.</h1>
+      <p>Pick up your streak, check the community goal, and see what your friends have been sharing.</p>
+    </div>
+    <div class="v-loop">
+      <div class="step"><i class="fa-solid fa-lock"></i> Private smile verification</div>
+      <div class="step"><i class="fa-solid fa-chart-line"></i> Points, streaks, impact</div>
+      <div class="step"><i class="fa-solid fa-note-sticky"></i> Thoughts, shared on your terms</div>
+    </div>
+  </div>
+
+  <div class="auth-form-side">
+    <div class="auth-box">
+      <div class="mobile-brand"><span class="brand-mark"><i class="fa-solid fa-face-smile"></i></span>SMILO</div>
+      <h2>Welcome back</h2>
+      <p class="lede">Log in to continue your streak.</p>
+
+      <button class="btn btn-secondary demo-btn" id="demo-login-btn" type="button"><i class="fa-solid fa-wand-magic-sparkles"></i> Continue with demo account</button>
+      <div class="divider-row">or log in with email</div>
+
+      <form id="login-form" novalidate>
+        <div class="field">
+          <label for="login-email">Email</label>
+          <input type="email" id="login-email" name="email" placeholder="you@example.com" autocomplete="email">
+          <span class="field-error">Email is required</span>
+        </div>
+        <div class="field">
+          <label for="login-password">Password</label>
+          <div class="input-wrap">
+            <input type="password" id="login-password" name="password" placeholder="••••••••" autocomplete="current-password">
+            <button type="button" class="toggle-visibility" tabindex="-1"><i class="fa-solid fa-eye"></i></button>
+          </div>
+          <span class="field-error">Password is required</span>
+        </div>
+        <div class="between-row">
+          <label class="checkbox-row"><input type="checkbox" name="remember"> Remember me</label>
+          <a href="#" id="forgot-link">Forgot password?</a>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block"><span class="btn-label">Log In</span></button>
+      </form>
+
+      <p class="auth-footer-link">Don't have an account? <a href="signup.html">Create one</a></p>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="forgot-modal">
+  <div class="modal">
+    <div class="modal-header"><h3>Reset your password</h3><button class="modal-close" data-modal-close><i class="fa-solid fa-xmark"></i></button></div>
+    <div class="modal-body">
+      <p style="font-size:13.5px;color:var(--text-muted);margin-bottom:16px;">Enter your email and we'll simulate sending a reset link — this prototype has no real email delivery.</p>
+      <div class="field"><label>Email</label><input type="email" placeholder="you@example.com"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" data-modal-close>Cancel</button>
+      <button class="btn btn-primary" id="forgot-send-btn">Send reset link</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast-region"></div>
+
+<script src="js/storage.js"></script>
+<script src="js/theme.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/auth.js"></script>
+<script>
+  document.getElementById('forgot-link')?.addEventListener('click', (e)=>{ e.preventDefault(); openModal('forgot-modal'); });
+  document.getElementById('forgot-send-btn')?.addEventListener('click', ()=>{ closeModal('forgot-modal'); showToast('If that email exists, a reset link was sent.', 'success'); });
+</script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+:root{
+  /* ---- Light theme (default) ---- */
+  --color-primary:#F2704A;
+  --color-primary-dark:#DB5A35;
+  --color-primary-light:#FDE3D8;
+  --color-secondary:#F4B93E;
+  --color-success:#3FB68A;
+  --color-success-light:#DFF5EC;
+  --color-accent:#4FA5D8;
+  --color-accent-light:#E2F1FA;
+
+  --bg:#FBF6EF;
+  --bg-elevated:#FFFFFF;
+  --surface:#FFFFFF;
+  --surface-muted:#F4EEE3;
+  --border:#E7DFD1;
+  --border-strong:#D8CDB9;
+
+  --text:#2B2621;
+  --text-muted:#746C60;
+  --text-faint:#A79C8B;
+  --text-on-primary:#FFFFFF;
+
+  --danger:#D65B4E;
+  --danger-light:#FBE4E1;
+
+  --shadow-sm:0 1px 2px rgba(43,38,33,.06);
+  --shadow-md:0 6px 20px -6px rgba(43,38,33,.14);
+  --shadow-lg:0 20px 50px -20px rgba(43,38,33,.28);
+
+  --radius-sm:8px;
+  --radius-md:14px;
+  --radius-lg:20px;
+  --radius-pill:999px;
+
+  --space-1:4px;
+  --space-2:8px;
+  --space-3:12px;
+  --space-4:16px;
+  --space-5:24px;
+  --space-6:32px;
+  --space-7:48px;
+  --space-8:64px;
+
+  --font-display:'Fraunces', Georgia, serif;
+  --font-body:'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --nav-h:68px;
+  --sidebar-w:264px;
+  --rightbar-w:300px;
+
+  --ease:cubic-bezier(.4,0,.2,1);
+  --dur-fast:.15s;
+  --dur:.28s;
+}
+
+[data-theme="dark"]{
+  --color-primary:#F2764C;
+  --color-primary-dark:#FF9066;
+  --color-primary-light:#3A281F;
+  --color-secondary:#F0C15A;
+  --color-success:#48C99A;
+  --color-success-light:#173A30;
+  --color-accent:#5FB2E8;
+  --color-accent-light:#122E3C;
+
+  --bg:#141210;
+  --bg-elevated:#1C1916;
+  --surface:#1C1916;
+  --surface-muted:#231F1B;
+  --border:#332E27;
+  --border-strong:#453E33;
+
+  --text:#F3EEE6;
+  --text-muted:#B4AA9A;
+  --text-faint:#7C7263;
+  --text-on-primary:#1A130D;
+
+  --danger:#E27568;
+  --danger-light:#3A211D;
+
+  --shadow-sm:0 1px 2px rgba(0,0,0,.4);
+  --shadow-md:0 10px 26px -10px rgba(0,0,0,.55);
+  --shadow-lg:0 24px 60px -24px rgba(0,0,0,.7);
+}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important;}
+}

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SMILO — Your smile is private. Your thoughts are yours to share.</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>😊</text></svg>">
+<script src="https://kit.fontawesome.com/c7aca3fb69.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="css/variables.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/responsive.css">
+<style>
+  body{overflow-x:hidden;}
+  .landing-nav{position:sticky;top:0;z-index:50;background:var(--bg);border-bottom:1px solid var(--border);}
+  .landing-nav .inner{max-width:1200px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;}
+  .hero{max-width:1200px;margin:0 auto;padding:72px 24px 40px;display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center;}
+  .hero h1{font-size:46px;line-height:1.08;margin-bottom:18px;letter-spacing:-.01em;}
+  .hero h1 em{font-style:normal;color:var(--color-primary);}
+  .hero p.lede{font-size:16px;color:var(--text-muted);max-width:440px;margin-bottom:30px;line-height:1.6;}
+  .hero-actions{display:flex;gap:12px;flex-wrap:wrap;}
+  .hero-visual{position:relative;}
+  .hero-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);padding:26px;}
+  .flow-row{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--border);}
+  .flow-row:last-child{border-bottom:none;}
+  .flow-row .n{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+  .flow-row .t b{display:block;font-size:13.5px;}
+  .flow-row .t span{font-size:11.5px;color:var(--text-faint);}
+  .section{max-width:1200px;margin:0 auto;padding:60px 24px;}
+  .section-head{text-align:center;max-width:560px;margin:0 auto 40px;}
+  .section-head h2{font-size:30px;margin-bottom:10px;}
+  .section-head p{color:var(--text-muted);font-size:15px;}
+  .feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .feature-card{padding:26px;}
+  .feature-card .ic{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:16px;}
+  .feature-card h3{font-size:16.5px;margin-bottom:8px;}
+  .feature-card p{font-size:13.5px;color:var(--text-muted);line-height:1.55;}
+  .cta-band{background:linear-gradient(135deg,var(--color-primary),var(--color-secondary));border-radius:var(--radius-lg);padding:56px 32px;text-align:center;color:#fff;margin:0 24px 70px;max-width:1152px;margin-left:auto;margin-right:auto;}
+  .cta-band h2{color:#fff;font-size:28px;margin-bottom:10px;}
+  .cta-band p{opacity:.92;margin-bottom:24px;font-size:14.5px;}
+  .footer-mini{text-align:center;padding:30px 24px 50px;color:var(--text-faint);font-size:12.5px;}
+  @media(max-width:900px){ .hero{grid-template-columns:1fr;padding-top:44px;} .feature-grid{grid-template-columns:1fr;} .hero h1{font-size:34px;} }
+</style>
+</head>
+<body>
+
+<nav class="landing-nav">
+  <div class="inner">
+    <a href="index.html" class="brand"><span class="brand-mark"><i class="fa-solid fa-face-smile"></i></span><span>SMILO</span></a>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <button class="icon-btn" data-theme-toggle aria-label="Toggle theme"><i class="fa-solid fa-moon"></i></button>
+      <a href="login.html" class="btn btn-ghost btn-sm">Login</a>
+      <a href="signup.html" class="btn btn-primary btn-sm">Create Account</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div>
+    <h1>Your smile is <em>private.</em><br>Your thoughts are yours to share.</h1>
+    <p class="lede">SMILO separates the two. Verify a smile privately and watch your progress grow — then choose, on your own terms, what you put out into the world.</p>
+    <div class="hero-actions">
+      <a href="signup.html" class="btn btn-primary" id="hero-primary-cta">Create Account</a>
+      <a href="login.html" class="btn btn-outline" id="hero-secondary-cta">Login</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-card">
+      <div class="flow-row">
+        <div class="n" style="background:var(--color-primary-light);color:var(--color-primary-dark);"><i class="fa-solid fa-lock"></i></div>
+        <div class="t"><b>Private Smile</b><span>Verified on your device, never posted</span></div>
+      </div>
+      <div class="flow-row">
+        <div class="n" style="background:var(--color-secondary);color:#7A4B08;"><i class="fa-solid fa-chart-simple"></i></div>
+        <div class="t"><b>Positive Impact</b><span>Points, streaks and community progress</span></div>
+      </div>
+      <div class="flow-row">
+        <div class="n" style="background:var(--color-accent-light);color:var(--color-accent);"><i class="fa-solid fa-note-sticky"></i></div>
+        <div class="t"><b>Public Thoughts</b><span>Shared only when, and how, you choose</span></div>
+      </div>
+      <div class="flow-row">
+        <div class="n" style="background:var(--color-success-light);color:var(--color-success);"><i class="fa-solid fa-people-group"></i></div>
+        <div class="t"><b>Community</b><span>Collective goals, built together</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <h2>Five things SMILO does differently</h2>
+    <p>Everything supports one idea: your smile is private, your thoughts are yours to share.</p>
+  </div>
+  <div class="feature-grid">
+    <div class="card feature-card">
+      <div class="ic" style="background:var(--color-primary-light);color:var(--color-primary-dark);"><i class="fa-solid fa-face-smile"></i></div>
+      <h3>Private Smile Verification</h3>
+      <p>Your smile is checked privately and discarded — it counts toward your progress, never your public profile.</p>
+    </div>
+    <div class="card feature-card">
+      <div class="ic" style="background:var(--color-secondary);color:#7A4B08;"><i class="fa-solid fa-hand-holding-heart"></i></div>
+      <h3>Made Me Smile reactions</h3>
+      <p>Reactions built for a positive platform: Made Me Smile, Inspired Me, Relatable, Worth Sharing.</p>
+    </div>
+    <div class="card feature-card">
+      <div class="ic" style="background:var(--color-accent-light);color:var(--color-accent);"><i class="fa-solid fa-earth-americas"></i></div>
+      <h3>Global Smile Pulse</h3>
+      <p>Watch the community's aggregate positivity grow in real time — never any individual's private photo.</p>
+    </div>
+    <div class="card feature-card">
+      <div class="ic" style="background:var(--color-success-light);color:var(--color-success);"><i class="fa-solid fa-fire"></i></div>
+      <h3>Missions &amp; meaningful streaks</h3>
+      <p>Streaks built from real activity — a verified smile, a shared thought, a completed mission.</p>
+    </div>
+    <div class="card feature-card">
+      <div class="ic" style="background:var(--color-primary-light);color:var(--color-primary-dark);"><i class="fa-solid fa-people-group"></i></div>
+      <h3>Collective community goals</h3>
+      <p>Contribute to a shared smile target with thousands of others. Cooperation, not just competition.</p>
+    </div>
+    <div class="card feature-card">
+      <div class="ic" style="background:var(--color-secondary);color:#7A4B08;"><i class="fa-solid fa-comment-dots"></i></div>
+      <h3>SMILO Assist</h3>
+      <p>A private space to process a hard day, shape a thought, or find your next mission — never posted for you.</p>
+    </div>
+  </div>
+</section>
+
+<div class="cta-band">
+  <h2>Ready to smile privately and share intentionally?</h2>
+  <p>Join in under a minute — no photo ever leaves your control.</p>
+  <a href="signup.html" class="btn" style="background:#fff;color:var(--color-primary-dark);">Create Account</a>
+</div>
+
+<div class="footer-mini">SMILO — a hackathon MVP prototype. Not a production authentication or storage system.</div>
+
+<div id="toast-region"></div>
+
+<script src="js/storage.js"></script>
+<script src="js/theme.js"></script>
+<script src="js/ui.js"></script>
+<script>
+  if (Session.isAuthed()) {
+    document.getElementById('hero-primary-cta').textContent = 'Continue to SMILO';
+    document.getElementById('hero-primary-cta').href = 'home.html';
+    document.getElementById('hero-secondary-cta').classList.add('hidden');
+  }
+</script>
+</body>
+</html>

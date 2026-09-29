@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Thoughts — SMILO</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>😊</text></svg>">
+<script src="https://kit.fontawesome.com/c7aca3fb69.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="css/variables.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/home.css">
+<link rel="stylesheet" href="css/dashboard.css">
+<link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+<div id="navbar-root"></div>
+
+<div class="app-shell no-right">
+  <div class="side-col left-col" id="side-nav-root"></div>
+
+  <div class="main-col">
+    <div class="page-title-row">
+      <div><h1>My Thoughts</h1><p>Everything you've shared, in one place.</p></div>
+    </div>
+
+    <div class="tabs" data-tab-group="thoughts">
+      <button class="tab active" data-tab="all">All</button>
+      <button class="tab" data-tab="global">Global</button>
+      <button class="tab" data-tab="friends">Friends</button>
+      <button class="tab" data-tab="private">Private</button>
+    </div>
+
+    <div id="thoughts-body"></div>
+  </div>
+</div>
+
+<div id="toast-region"></div>
+
+<script src="js/storage.js"></script>
+<script src="js/theme.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/missions.js"></script>
+<script src="js/notifications.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/app.js"></script>
+<script src="js/smile.js"></script>
+<script src="js/home.js"></script>
+<script src="js/thoughts.js"></script>
+</body>
+</html>

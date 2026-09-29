@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Create Account — SMILO</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>😊</text></svg>">
+<script src="https://kit.fontawesome.com/c7aca3fb69.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="css/variables.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/auth.css">
+<link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+<div class="auth-page">
+  <div class="auth-visual">
+    <div class="v-brand"><span class="v-mark"><i class="fa-solid fa-face-smile"></i></span>SMILO</div>
+    <div class="v-copy">
+      <h1>Smile privately.<br>Share intentionally.</h1>
+      <p>Join a community built around one idea: your smile is yours, your thoughts are yours to share — on your terms.</p>
+    </div>
+    <div class="v-loop">
+      <div class="step"><i class="fa-solid fa-face-smile"></i> Private smile → points &amp; streak</div>
+      <div class="step"><i class="fa-solid fa-note-sticky"></i> Share thoughts, your visibility choice</div>
+      <div class="step"><i class="fa-solid fa-people-group"></i> Contribute to a shared community goal</div>
+    </div>
+  </div>
+
+  <div class="auth-form-side">
+    <div class="auth-box">
+      <div class="mobile-brand"><span class="brand-mark"><i class="fa-solid fa-face-smile"></i></span>SMILO</div>
+      <h2>Create your account</h2>
+      <p class="lede">Takes less than a minute.</p>
+
+      <form id="signup-form" novalidate>
+        <div class="field">
+          <label for="su-name">Full Name</label>
+          <input type="text" id="su-name" name="name" placeholder="Jordan Lee" autocomplete="name">
+          <span class="field-error">Full name is required</span>
+        </div>
+        <div class="field">
+          <label for="su-username">Username</label>
+          <input type="text" id="su-username" name="username" placeholder="jordanlee" autocomplete="username">
+          <span class="field-hint" id="username-hint"></span>
+          <span class="field-error">Choose a username</span>
+        </div>
+        <div class="field">
+          <label for="su-email">Email</label>
+          <input type="email" id="su-email" name="email" placeholder="you@example.com" autocomplete="email">
+          <span class="field-error">Enter a valid email</span>
+        </div>
+        <div class="field">
+          <label for="su-password">Password</label>
+          <div class="input-wrap">
+            <input type="password" id="su-password" name="password" placeholder="At least 6 characters" autocomplete="new-password">
+            <button type="button" class="toggle-visibility" tabindex="-1"><i class="fa-solid fa-eye"></i></button>
+          </div>
+          <div class="strength-bar"><span id="strength-fill"></span></div>
+          <span class="field-error">Use at least 6 characters</span>
+        </div>
+        <div class="field">
+          <label for="su-confirm">Confirm Password</label>
+          <input type="password" id="su-confirm" name="confirm" placeholder="Re-enter password" autocomplete="new-password">
+          <span class="field-error">Passwords do not match</span>
+        </div>
+        <label class="checkbox-row" style="margin-bottom:18px;">
+          <input type="checkbox" name="terms">
+          I agree to the Terms of Service and Privacy Agreement, including how smile verification and thought visibility work.
+        </label>
+        <button type="submit" class="btn btn-primary btn-block"><span class="btn-label">Create Account</span></button>
+      </form>
+
+      <p class="auth-footer-link">Already have an account? <a href="login.html">Log in</a></p>
+    </div>
+  </div>
+</div>
+
+<div id="toast-region"></div>
+
+<script src="js/storage.js"></script>
+<script src="js/theme.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chat — SMILO</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>😊</text></svg>">
+<script src="https://kit.fontawesome.com/c7aca3fb69.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="css/variables.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/chat.css">
+<link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+<div id="navbar-root"></div>
+
+<div class="chat-shell">
+  <aside class="chat-list">
+    <div class="chat-list-head">
+      <h2>Chat</h2>
+      <div class="search-bar" style="padding:8px 14px;">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="chat-search" placeholder="Search conversations...">
+      </div>
+    </div>
+    <div class="chat-list-items" id="chat-list-items"></div>
+  </aside>
+
+  <section class="chat-main">
+    <div class="chat-header">
+      <button class="icon-btn chat-back-btn" id="chat-back-btn" style="display:none;"><i class="fa-solid fa-arrow-left"></i></button>
+      <div id="chat-header-body" style="display:flex;align-items:center;gap:12px;flex:1;"></div>
+    </div>
+    <div class="chat-messages" id="chat-messages"></div>
+    <div class="assist-suggestions hidden" id="assist-suggestions">
+      <button class="chip" data-assist-suggestion="boost">😊 Boost My Mood</button>
+      <button class="chip" data-assist-suggestion="express">💭 Help Me Express This</button>
+      <button class="chip" data-assist-suggestion="improve">📝 Improve My Thought</button>
+      <button class="chip" data-assist-suggestion="mission">🌱 Give Me a Mission</button>
+    </div>
+    <div class="chat-composer">
+      <button class="icon-btn" title="Attachment (demo only)"><i class="fa-solid fa-paperclip"></i></button>
+      <input type="text" id="chat-input" placeholder="Type a message...">
+      <button class="icon-btn" title="Emoji (demo only)"><i class="fa-regular fa-face-smile"></i></button>
+      <button class="btn btn-primary btn-icon" id="chat-send-btn" aria-label="Send"><i class="fa-solid fa-paper-plane"></i></button>
+    </div>
+  </section>
+</div>
+
+<div id="toast-region"></div>
+
+<script src="js/storage.js"></script>
+<script src="js/theme.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/missions.js"></script>
+<script src="js/notifications.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/app.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script src="js/chat.js"></script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welcome — SMILO</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>😊</text></svg>">
+<script src="https://kit.fontawesome.com/c7aca3fb69.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="css/variables.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/auth.css">
+<link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+<div class="onboard-page">
+  <div class="onboard-card">
+    <div class="onboard-progress">
+      <span class="current" data-step-dot="1"><i></i></span>
+      <span data-step-dot="2"><i></i></span>
+      <span data-step-dot="3"><i></i></span>
+    </div>
+
+    <div class="onboard-step" data-step="1">
+      <h2>Welcome to SMILO</h2>
+      <p>What brings you here?</p>
+      <div class="option-grid" id="brings-grid">
+        <button class="option-card" data-value="meet"><i class="fa-solid fa-user-group"></i> Meet people</button>
+        <button class="option-card" data-value="share"><i class="fa-solid fa-note-sticky"></i> Share thoughts</button>
+        <button class="option-card" data-value="habits"><i class="fa-solid fa-seedling"></i> Build positive habits</button>
+        <button class="option-card" data-value="track"><i class="fa-solid fa-face-smile"></i> Track my smile</button>
+        <button class="option-card" data-value="discover"><i class="fa-solid fa-compass"></i> Discover communities</button>
+      </div>
+      <div class="onboard-actions"><span></span><button class="btn btn-primary" data-next="1">Continue</button></div>
+    </div>
+
+    <div class="onboard-step hidden" data-step="2">
+      <h2>What are you interested in?</h2>
+      <p>Pick a few — this helps us find people and thoughts you'll like.</p>
+      <div class="interest-grid" id="interest-grid"></div>
+      <div class="onboard-actions"><button class="btn btn-ghost" data-back="2">Back</button><button class="btn btn-primary" data-next="2">Continue</button></div>
+    </div>
+
+    <div class="onboard-step hidden" data-step="3">
+      <h2>Your privacy matters.</h2>
+      <div class="privacy-explain">
+        <div class="big-lock"><i class="fa-solid fa-lock"></i></div>
+        <h3>Your smile photo stays private.</h3>
+        <p>It contributes to your progress — points, smiles and streak — but it never becomes public content. No smile photo ever appears in a feed, on your profile, or anywhere else in SMILO.</p>
+      </div>
+      <div class="onboard-actions"><button class="btn btn-ghost" data-back="3">Back</button><button class="btn btn-primary" id="finish-onboarding-btn">Go to Home</button></div>
+    </div>
+  </div>
+</div>
+
+<div id="toast-region"></div>
+
+<script src="js/storage.js"></script>
+<script src="js/theme.js"></script>
+<script src="js/ui.js"></script>
+<script>
+  const user = Session.current();
+  if(!user){ location.href = 'signup.html'; }
+
+  const INTERESTS = ['Technology','Gaming','Education','Music','Sports','Art','Fitness','Books','Travel','Personal Growth'];
+  document.getElementById('interest-grid').innerHTML = INTERESTS.map(i=>`<button class="chip" data-interest="${i}">${i}</button>`).join('');
+
+  let currentStep = 1;
+  let selectedBrings = null;
+  let selectedInterests = [];
+
+  function goToStep(n){
+    document.querySelectorAll('.onboard-step').forEach(s=> s.classList.toggle('hidden', Number(s.dataset.step) !== n));
+    document.querySelectorAll('[data-step-dot]').forEach(d=>{
+      const step = Number(d.dataset.stepDot);
+      d.classList.toggle('done', step < n);
+      d.classList.toggle('current', step === n);
+    });
+    currentStep = n;
+  }
+
+  document.getElementById('brings-grid').addEventListener('click', (e)=>{
+    const card = e.target.closest('.option-card');
+    if(!card) return;
+    document.querySelectorAll('#brings-grid .option-card').forEach(c=>c.classList.remove('selected'));
+    card.classList.add('selected');
+    selectedBrings = card.dataset.value;
+  });
+
+  document.getElementById('interest-grid').addEventListener('click', (e)=>{
+    const chip = e.target.closest('[data-interest]');
+    if(!chip) return;
+    chip.classList.toggle('active');
+    const val = chip.dataset.interest;
+    selectedInterests = chip.classList.contains('active')
+      ? [...selectedInterests, val]
+      : selectedInterests.filter(i=>i!==val);
+  });
+
+  document.querySelectorAll('[data-next]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const step = Number(btn.dataset.next);
+      if(step === 1 && !selectedBrings){ showToast('Pick an option to continue.'); return; }
+      goToStep(step+1);
+    });
+  });
+  document.querySelectorAll('[data-back]').forEach(btn=>{
+    btn.addEventListener('click', ()=> goToStep(Number(btn.dataset.back)-1));
+  });
+
+  document.getElementById('finish-onboarding-btn').addEventListener('click', ()=>{
+    user.interests = selectedInterests;
+    Users.save(user);
+    showToast('You\'re all set!', 'success');
+    setTimeout(()=> location.href = 'home.html', 500);
+  });
+</script>
+</body>
+</html>

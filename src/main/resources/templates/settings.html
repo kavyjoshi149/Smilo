@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Settings — SMILO</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>😊</text></svg>">
+<script src="https://kit.fontawesome.com/c7aca3fb69.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="css/variables.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/dashboard.css">
+<link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+<div id="navbar-root"></div>
+
+<div class="app-shell no-right">
+  <div class="side-col left-col" id="side-nav-root"></div>
+
+  <div class="main-col">
+    <div class="page-title-row"><div><h1>Settings</h1><p>Manage your profile, privacy and preferences.</p></div></div>
+
+    <div class="settings-layout">
+      <nav class="settings-nav" id="settings-nav">
+        <a href="#" data-settings-tab="profile" class="active">Profile</a>
+        <a href="#" data-settings-tab="appearance">Appearance</a>
+        <a href="#" data-settings-tab="privacy">Privacy</a>
+        <a href="#" data-settings-tab="notifications">Notifications</a>
+        <a href="#" data-settings-tab="feed">Feed Preferences</a>
+        <a href="#" data-settings-tab="account">Account</a>
+      </nav>
+
+      <div>
+        <div class="card card-pad settings-section" data-settings-panel="profile">
+          <h3>Profile</h3>
+          <form id="profile-form">
+            <div class="field"><label>Full name</label><input type="text" name="name"></div>
+            <div class="field"><label>Username</label><input type="text" name="username" disabled></div>
+            <div class="field"><label>Bio</label><textarea name="bio" maxlength="160"></textarea></div>
+            <button type="submit" class="btn btn-primary btn-sm">Save changes</button>
+          </form>
+        </div>
+
+        <div class="card card-pad settings-section hidden" data-settings-panel="appearance">
+          <h3>Appearance</h3>
+          <div class="settings-row" style="border:none;">
+            <div class="txt"><b>Theme</b><span>Choose how SMILO looks on this device.</span></div>
+          </div>
+          <div class="theme-pick-row">
+            <div class="theme-pick" data-theme-pick="light"><i class="fa-solid fa-sun"></i>Light</div>
+            <div class="theme-pick" data-theme-pick="dark"><i class="fa-solid fa-moon"></i>Black</div>
+          </div>
+        </div>
+
+        <div class="card card-pad settings-section hidden" data-settings-panel="privacy">
+          <h3>Privacy</h3>
+          <div class="settings-row">
+            <div class="txt"><b>Who can see my thoughts?</b><span>Applies to new posts by default.</span></div>
+            <select data-privacy-select><option>Everyone</option><option>Friends only</option><option>Only me</option></select>
+          </div>
+          <div class="settings-row">
+            <div class="txt"><b>Who can send friend requests?</b></div>
+            <select data-privacy-select><option>Everyone</option><option>Friends of friends</option><option>No one</option></select>
+          </div>
+          <div class="settings-row">
+            <div class="txt"><b>Who can message me?</b></div>
+            <select data-privacy-select><option>Everyone</option><option>Friends only</option></select>
+          </div>
+          <div class="privacy-note" style="margin-top:14px;"><i class="fa-solid fa-lock"></i><div>Smile photos are never stored, shared, or shown to anyone — including SMILO. They're used only to count a verified smile, then discarded.</div></div>
+        </div>
+
+        <div class="card card-pad settings-section hidden" data-settings-panel="notifications">
+          <h3>Notifications</h3>
+          <div class="settings-row"><div class="txt"><b>Friend requests</b></div><label class="switch"><input type="checkbox" checked><span class="track"></span></label></div>
+          <div class="settings-row"><div class="txt"><b>Reactions on your thoughts</b></div><label class="switch"><input type="checkbox" checked><span class="track"></span></label></div>
+          <div class="settings-row"><div class="txt"><b>Mission reminders</b></div><label class="switch"><input type="checkbox" checked><span class="track"></span></label></div>
+          <div class="settings-row"><div class="txt"><b>Community goal updates</b></div><label class="switch"><input type="checkbox"><span class="track"></span></label></div>
+        </div>
+
+        <div class="card card-pad settings-section hidden" data-settings-panel="feed">
+          <h3>Feed Preferences</h3>
+          <div class="settings-row">
+            <div class="txt"><b>Positive Mode</b><span>Prioritizes helpful, educational and supportive content.</span></div>
+            <label class="switch"><input type="checkbox" id="positive-mode-toggle"><span class="track"></span></label>
+          </div>
+        </div>
+
+        <div class="card card-pad settings-section hidden" data-settings-panel="account">
+          <h3>Account &amp; Security</h3>
+          <div class="settings-row"><div class="txt"><b>Password</b><span>Last changed — this is a frontend demo, no real auth.</span></div><button class="btn btn-outline btn-sm" onclick="showToast('Password changes aren\'t wired up in this prototype.')">Change</button></div>
+          <div class="settings-row"><div class="txt"><b>Log out</b><span>End your session on this device.</span></div><button class="btn btn-secondary btn-sm" id="logout-settings-btn">Log out</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast-region"></div>
+
+<script src="js/storage.js"></script>
+<script src="js/theme.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/missions.js"></script>
+<script src="js/notifications.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/app.js"></script>
+<script src="js/settings.js"></script>
+</body>
+</html>
