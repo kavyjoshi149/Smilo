@@ -89,7 +89,18 @@
           <button class="btn btn-primary" id="smile-simulate-btn"><i class="fa-solid fa-camera"></i> Take Photo</button>
         </div>
         <input type="file" id="smile-file-input" accept="image/*" class="hidden">
-        <div class="privacy-note" style="margin-top:16px;"><i class="fa-solid fa-lock"></i><div>This is a frontend demo — verification is simulated, and your image is discarded immediately, never uploaded or stored.</div></div>
+        <div class="privacy-note" style="margin-top:16px;"><i class="fa-solid fa-lock"></i><div>Your photo is analyzed for a smile and discarded immediately — never uploaded to storage or kept.</div></div>
+      </div>
+
+      <div class="smile-stage hidden" id="smile-stage-camera">
+        <div class="camera-preview-wrap" style="border-radius:16px;overflow:hidden;background:#000;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;">
+          <video id="smile-camera-video" autoplay playsinline muted style="width:100%;height:100%;object-fit:cover;transform:scaleX(-1);"></video>
+        </div>
+        <canvas id="smile-camera-canvas" class="hidden"></canvas>
+        <div class="smile-choice-row" style="margin-top:14px;">
+          <button class="btn btn-outline" id="smile-camera-cancel-btn"><i class="fa-solid fa-xmark"></i> Cancel</button>
+          <button class="btn btn-primary" id="smile-camera-capture-btn"><i class="fa-solid fa-camera"></i> Capture</button>
+        </div>
       </div>
 
       <div class="smile-stage smile-analyzing hidden" id="smile-stage-analyzing">

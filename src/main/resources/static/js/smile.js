@@ -1,9 +1,9 @@
 /* ============================================================
    SMILO — smile.js
    Real smile verification via POST /api/user/smile-photo.
-   The photo is sent once, analyzed server-side with OpenCV, and
-   never stored — the backend holds it in memory only for the
-   duration of the request.
+   "Take Photo" opens the device camera live (getUserMedia),
+   captures a single frame on demand, and uploads that frame —
+   no continuous recording, nothing saved to disk client-side.
    ============================================================ */
 
 function authHeaders(){
@@ -11,19 +11,86 @@ function authHeaders(){
   return token ? { 'Authorization': `Bearer ${token}` } : {};
 }
 
+let cameraStream = null;
+
 function openSmileModal(){
   resetSmileModal();
   openModal('smile-modal');
 }
 
 function resetSmileModal(){
+  stopCamera();
   document.getElementById('smile-stage-choose')?.classList.remove('hidden');
+  document.getElementById('smile-stage-camera')?.classList.add('hidden');
   document.getElementById('smile-stage-analyzing')?.classList.add('hidden');
   document.getElementById('smile-stage-success')?.classList.add('hidden');
   document.getElementById('smile-stage-failed')?.classList.add('hidden');
   const input = document.getElementById('smile-file-input');
-  if(input){ input.value = ''; input.removeAttribute('capture'); }
+  if(input) input.value = '';
 }
+
+/* ---------------- Camera flow ---------------- */
+
+async function openCamera(){
+  document.getElementById('smile-stage-choose').classList.add('hidden');
+  document.getElementById('smile-stage-camera').classList.remove('hidden');
+
+  const video = document.getElementById('smile-camera-video');
+
+  try {
+    cameraStream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: 'user' },
+      audio: false
+    });
+    video.srcObject = cameraStream;
+  } catch (err) {
+    showToast('Could not access your camera. Check permissions, or upload an image instead.', 'error');
+    stopCamera();
+    document.getElementById('smile-stage-camera').classList.add('hidden');
+    document.getElementById('smile-stage-choose').classList.remove('hidden');
+  }
+}
+
+function stopCamera(){
+  if(cameraStream){
+    cameraStream.getTracks().forEach(track => track.stop());
+    cameraStream = null;
+  }
+  const video = document.getElementById('smile-camera-video');
+  if(video) video.srcObject = null;
+}
+
+function capturePhoto(){
+  const video = document.getElementById('smile-camera-video');
+  const canvas = document.getElementById('smile-camera-canvas');
+  if(!video || !video.videoWidth){
+    showToast('Camera is still loading — try again in a moment.', 'error');
+    return;
+  }
+
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  const ctx = canvas.getContext('2d');
+  // mirror the capture to match the mirrored live preview, so the
+  // uploaded photo looks the same as what the user saw on screen
+  ctx.translate(canvas.width, 0);
+  ctx.scale(-1, 1);
+  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+  canvas.toBlob((blob)=>{
+    stopCamera();
+    document.getElementById('smile-stage-camera').classList.add('hidden');
+    if(blob){
+      const file = new File([blob], 'smile-capture.jpg', { type: 'image/jpeg' });
+      runSmileVerification(file);
+    } else {
+      showToast('Could not capture that photo. Try again.', 'error');
+      document.getElementById('smile-stage-choose').classList.remove('hidden');
+    }
+  }, 'image/jpeg', 0.92);
+}
+
+/* ---------------- Wiring ---------------- */
 
 function initSmileFlow(){
   const modal = document.getElementById('smile-modal');
@@ -31,16 +98,19 @@ function initSmileFlow(){
 
   const fileInput = document.getElementById('smile-file-input');
 
-  // "Upload Image" — plain file picker
   document.getElementById('smile-choose-file-btn')?.addEventListener('click', ()=>{
-    fileInput.removeAttribute('capture');
     fileInput.click();
   });
 
-  // "Take Photo" — same file input, but hints mobile browsers to open the camera directly
-  document.getElementById('smile-simulate-btn')?.addEventListener('click', ()=>{
-    fileInput.setAttribute('capture', 'user');
-    fileInput.click();
+  // "Take Photo" now opens a real live camera instead of the file picker
+  document.getElementById('smile-simulate-btn')?.addEventListener('click', openCamera);
+
+  document.getElementById('smile-camera-capture-btn')?.addEventListener('click', capturePhoto);
+
+  document.getElementById('smile-camera-cancel-btn')?.addEventListener('click', ()=>{
+    stopCamera();
+    document.getElementById('smile-stage-camera').classList.add('hidden');
+    document.getElementById('smile-stage-choose').classList.remove('hidden');
   });
 
   fileInput?.addEventListener('change', (e)=>{
@@ -50,10 +120,19 @@ function initSmileFlow(){
   });
 
   document.getElementById('smile-try-again-btn')?.addEventListener('click', resetSmileModal);
+
+  // release the camera if the user closes the modal mid-capture
+  modal.querySelectorAll('[data-modal-close]').forEach(btn=>{
+    btn.addEventListener('click', stopCamera);
+  });
+  modal.addEventListener('click', (e)=>{
+    if(e.target === modal) stopCamera();
+  });
 }
 
 async function runSmileVerification(file){
   document.getElementById('smile-stage-choose').classList.add('hidden');
+  document.getElementById('smile-stage-camera').classList.add('hidden');
   const analyzing = document.getElementById('smile-stage-analyzing');
   analyzing.classList.remove('hidden');
 
@@ -82,7 +161,6 @@ async function runSmileVerification(file){
     const pointsGained = Math.max(0, data.smilePoint - pointsBefore);
 
     if(pointsGained <= 0){
-      // Request succeeded, but no smiling face was detected in the photo
       document.getElementById('smile-stage-failed').classList.remove('hidden');
       return;
     }
@@ -99,7 +177,6 @@ function completeSmileVerification(serverUser, pointsGained){
   const user = Session.current();
   if(!user) return;
 
-  // Sync the bridged local session with the real backend totals
   user.points = serverUser.smilePoint;
   user.smiles = (user.smiles || 0) + 1;
   user.streak = serverUser.streak;

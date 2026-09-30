@@ -15,6 +15,31 @@ const NAV_ITEMS = [
   {page:'settings.html', icon:'fa-gear', label:'Settings'}
 ];
 
+// Pulls the authoritative smilePoint/streak (and profile fields) from the
+// backend and syncs them into the bridged local Session/Users model, so
+// the navbar is never stale — even if points changed elsewhere.
+async function syncCurrentUserFromServer(){
+  const token = localStorage.getItem('smilo_jwt');
+  const user = Session.current();
+  if(!token || !user) return null;
+
+  try {
+    const res = await fetch('/api/user/me', { headers: { 'Authorization': `Bearer ${token}` } });
+    if(!res.ok) return null;
+    const data = await res.json();
+
+    user.points = data.smilePoint;
+    user.streak = data.streak;
+    user.name = data.name;
+    user.bio = data.bio;
+    user.avatar = data.avatarUrl;
+    Users.save(user);
+    return user;
+  } catch (err) {
+    return null; // silent — keep showing the last-known cached values
+  }
+}
+
 function renderNavbar(){
   const root = document.getElementById('navbar-root');
   if(!root) return;
@@ -31,6 +56,7 @@ function renderNavbar(){
       </div>
       <div class="nav-pulse">
         <div class="pulse-stat pulse-global"><span class="dot-icon"><i class="fa-solid fa-face-smile"></i></span><b class="count-up" id="nav-global-count">${stats.totalSmiles.toLocaleString()}</b><span class="label-full">smiles</span></div>
+        ${user ? `<div class="pulse-stat pulse-points"><span class="dot-icon"><i class="fa-solid fa-star"></i></span><b id="nav-points-count">${user.points}</b><span class="label-full">points</span></div>` : ''}
         ${user ? `<div class="pulse-stat pulse-streak"><span class="dot-icon"><i class="fa-solid fa-fire"></i></span><b>${user.streak}</b><span class="label-full">day streak</span></div>` : ''}
       </div>
       <div class="nav-right">
@@ -129,8 +155,17 @@ function renderSideNav(){
 }
 
 function initApp(){
+  // Paint immediately from cached data (no flash of emptiness), then
+  // silently refresh once the real backend values come back.
   renderNavbar();
   renderSideNav();
+
+  syncCurrentUserFromServer().then(updated=>{
+    if(updated){
+      renderNavbar();
+      renderSideNav();
+    }
+  });
 }
 
 /* Convenience alias used by several page scripts after a state change
@@ -142,19 +177,9 @@ function renderNavbarStats(){
 
 document.addEventListener('DOMContentLoaded', initApp);
 
-/* Add-friend is rendered on several pages (Home sidebar, Discover, Friends
-   suggestions) so the handler lives here, once, always loaded. */
-document.addEventListener('click', (e)=>{
-  const addBtn = e.target.closest('[data-add-friend]');
-  if(addBtn){
-    const user = Session.current();
-    if(!user) return;
-    Friends.sendRequest(user.id, addBtn.dataset.addFriend);
-    addBtn.textContent = 'Sent';
-    addBtn.disabled = true;
-    addBtn.classList.remove('btn-outline');
-    addBtn.classList.add('btn-secondary');
-    showToast('Friend request sent.', 'success');
-    if(typeof renderNavbar === 'function') renderNavbar();
-  }
-});
+// NOTE: the old document-level "add friend" click handler that lived here
+// (calling the local-only Friends.sendRequest) has been removed — it was
+// firing alongside the real backend calls in discover.js/home.js, which
+// meant every "Add" click silently did both a fake local update AND a
+// real API request at the same time. The real handlers already live in
+// discover.js and home.js; this file no longer needs one of its own.
